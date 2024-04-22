@@ -9,6 +9,26 @@
 }
 
 .boardStyle {
+  display: flex;
+  flex-wrap: wrap;
   width: 640px;
   height: 640px;
+  background-color: green;
+}
+
+.cellStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border: solid 1px;
+  border-color: black;
+}
+
+.stoneStyle {
+  width: 56px;
+  height: 56px;
+  background-color: white;
+  border-radius: 28px;
 }
