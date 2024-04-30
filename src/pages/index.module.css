@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   height: 100vh;
@@ -31,4 +31,42 @@
   height: 56px;
   background-color: white;
   border-radius: 28px;
+}
+
+.myTurn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 450px;
+  height: 500px;
+  padding-left: 30px;
+  margin-left: 100px;
+  background-color: rgb(67 204 170);
+  border-radius: 50px;
+}
+
+.myTurnDisplay {
+  display: flex;
+  width: 300px;
+  height: 150px;
+  padding-top: 28px;
+  padding-left: 45px;
+  margin-top: 30px;
+  margin-left: 40px;
+  font-size: 50px;
+  font-weight: 900;
+  background-color: rgb(75 149 219);
+  border-radius: 15px;
+}
+
+.turnColorDisplay {
+  flex-direction: column;
+  width: 400px;
+  height: 270px;
+  padding-top: 100px;
+  padding-left: 95px;
+  font-size: 30px;
+  font-weight: 700;
+  background-color: beige;
+  border-radius: 20%;
 }
