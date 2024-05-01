@@ -36,10 +36,10 @@
 .myTurn {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-around;
   width: 450px;
   height: 500px;
-  padding-left: 30px;
   margin-left: 100px;
   background-color: rgb(67 204 170);
   border-radius: 50px;
@@ -47,12 +47,12 @@
 
 .myTurnDisplay {
   display: flex;
+  align-items: center;
+  justify-content: space-evenly;
   width: 300px;
   height: 150px;
-  padding-top: 28px;
-  padding-left: 45px;
   margin-top: 30px;
-  margin-left: 40px;
+  margin-bottom: 10px;
   font-size: 50px;
   font-weight: 900;
   background-color: rgb(75 149 219);
@@ -60,13 +60,15 @@
 }
 
 .turnColorDisplay {
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
   width: 400px;
   height: 270px;
-  padding-top: 100px;
-  padding-left: 95px;
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 50px;
+  font-weight: 600;
+  color: black;
   background-color: beige;
   border-radius: 20%;
 }

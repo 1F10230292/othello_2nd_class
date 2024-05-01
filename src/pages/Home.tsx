@@ -29,41 +29,38 @@ const Home = () => {
     changeColorBoard.length = 0;
     for (const direction of directions) {
       const getPreBoard = [];
-      if (board[y][x] === 0) {
-        if (
-          board[y + direction[0]] !== undefined &&
-          board[y + direction[0]][x + direction[1]] === 3 - turnColor
-        ) {
-          for (let i = 1; i < 8; i++) {
-            if (board[y + direction[0] * i] !== undefined) {
-              if (board[y + direction[0] * i][x + direction[1] * i] === 3 - turnColor) {
-                getPreBoard.push([y + direction[0] * i, x + direction[1] * i]);
-                continue;
-              } else if (board[y + direction[0] * i][x + direction[1] * i] === turnColor) {
-                newBoard[y][x] = turnColor;
-                setTurnColor(3 - turnColor);
-                for (const k of getPreBoard) {
-                  changeColorBoard.push(k);
-                }
-                for (const j of changeColorBoard) {
-                  newBoard[j[0]][j[1]] = turnColor;
-                }
-
-                setBoard(newBoard);
-                console.log(changeColorBoard);
-
-                break;
-              } else {
-                // 盤面が0の時、要は何もない時
-                break;
+      if (
+        board[y + direction[0]] !== undefined &&
+        board[y + direction[0]][x + direction[1]] === 3 - turnColor
+      ) {
+        for (let i = 1; i < 8; i++) {
+          if (board[y + direction[0] * i] !== undefined) {
+            if (board[y + direction[0] * i][x + direction[1] * i] === 3 - turnColor) {
+              getPreBoard.push([y + direction[0] * i, x + direction[1] * i]);
+              continue;
+            } else if (board[y + direction[0] * i][x + direction[1] * i] === turnColor) {
+              newBoard[y][x] = turnColor;
+              setTurnColor(3 - turnColor);
+              for (const k of getPreBoard) {
+                changeColorBoard.push(k);
               }
+              for (const j of changeColorBoard) {
+                newBoard[j[0]][j[1]] = turnColor;
+              }
+
+              setBoard(newBoard);
+              console.log(changeColorBoard);
+
+              break;
+            } else {
+              // 盤面が0の時、要は何もない時
+              break;
             }
           }
         }
       }
     }
   };
-
   // ボード上の黒い石の数をカウントする関数
   const colorNum = board.flat();
 
@@ -76,9 +73,8 @@ const Home = () => {
   if (turnColor !== 0) {
     if (turnColor === 1) {
       blackOrWhite = 'Black';
-    }
-    //turnColor === 2;
-    else {
+    } else turnColor === 2;
+    {
       blackOrWhite = 'White';
     }
   }
