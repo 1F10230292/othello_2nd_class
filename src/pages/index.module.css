@@ -72,3 +72,10 @@
   background-color: beige;
   border-radius: 20%;
 }
+
+.suggestStyle {
+  width: 40px;
+  height: 40px;
+  background-color: grey;
+  border-radius: 20px;
+}

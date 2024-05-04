@@ -1,5 +1,34 @@
 import styles from './index.module.css';
 import { useState } from 'react';
+const suggestPosition = (x: number, y: number, board: number[][], turnColor: number) => {
+  console.log(x, y);
+  const preSuggest: number[][] = [];
+  for (const direction of directions) {
+    if (board[y][x] === 0) {
+      if (
+        board[y + direction[0]] !== undefined &&
+        board[y + direction[0]][x + direction[1]] === 3 - turnColor
+      ) {
+        for (let i = 1; i < 8; i++) {
+          if (board[y + direction[0] * i] !== undefined) {
+            if (board[y + direction[0] * i][x + direction[1] * i] === 3 - turnColor) {
+              continue;
+            } else if (board[y + direction[0] * i][x + direction[1] * i] === turnColor) {
+              preSuggest[y][x] = turnColor;
+
+              break;
+            } else {
+              // 盤面が0の時、要は何もない時
+              break;
+            }
+          }
+        }
+        console.log('置ける候補は:', preSuggest);
+      }
+    }
+  }
+};
+console.log(suggestPosition);
 const directions = [
   [-1, 0],
   [-1, 1],
@@ -14,17 +43,17 @@ const changeColorBoard: number[][] = [];
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
-    [1, 0, 0, 0, 1, 0, 0, 0],
-    [0, 2, 0, 0, 2, 0, 0, 1],
-    [0, 0, 2, 0, 2, 0, 2, 0],
-    [0, 0, 0, 2, 2, 2, 0, 2],
-    [1, 2, 2, 2, 0, 2, 2, 2],
-    [0, 0, 0, 2, 2, 2, 0, 2],
-    [0, 0, 2, 0, 2, 0, 2, 2],
-    [0, 1, 0, 0, 1, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
+    [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const clickHandler = (x: number, y: number) => {
-    console.log(x, y);
+    // console.log(x, y);
     const newBoard = structuredClone(board);
     changeColorBoard.length = 0;
     for (const direction of directions) {
@@ -50,7 +79,7 @@ const Home = () => {
                 }
 
                 setBoard(newBoard);
-                console.log(changeColorBoard);
+                // console.log(changeColorBoard);
 
                 break;
               } else {
@@ -68,9 +97,9 @@ const Home = () => {
   const colorNum = board.flat();
 
   const blackNum = colorNum.filter((color) => color === 1).length;
-  console.log(blackNum);
+  // console.log(blackNum);
   const whiteNum = colorNum.filter((color) => color === 2).length;
-  console.log(whiteNum);
+  // console.log(whiteNum);
 
   let blackOrWhite = '';
   if (turnColor !== 0) {
@@ -94,6 +123,7 @@ const Home = () => {
                   style={{ background: color === 1 ? '#000' : '#fff' }}
                 />
               )}
+              <div className={styles.suggestStyle}>{suggestPosition}</div>
             </div>
           )),
         )}
