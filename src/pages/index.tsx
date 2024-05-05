@@ -62,9 +62,9 @@ const Home = () => {
   const [displayBoard, setDisplayBoard] = useState(suggestPosition(board, turnColor));
 
   // turnColorまたはboardが変更されたときに更新
-  useEffect(()=>{
-    setDisplayBoard(suggestPosition(board,turnColor));
-  }, [board,turnColor]);
+  useEffect(() => {
+    setDisplayBoard(suggestPosition(board, turnColor));
+  }, [board, turnColor]);
   const clickHandler = (x: number, y: number) => {
     // console.log(x, y);
     const newBoard = structuredClone(board);
@@ -127,24 +127,28 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.boardStyle}>
-  {displayBoard.map((row, y) => row.map((color, x) => (
-    <div className={styles.cellStyle} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
-      {color === 9 ? <div className={styles.suggestStyle}>●</div>}
-      {color !== 0 && color !== 9 && (
-        <div className={styles.stoneStyle} style={{ background: color === 1 ? '#000' : '#fff' }} />
-      )}
-    </div>
+        {displayBoard.map((row, y) =>
+          row.map((color, x) => (
+            <div className={styles.cellStyle} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
+              {color === 9 ? <div className={styles.suggestStyle} /> : null}
+              {color !== 0 && color !== 9 && (
+                <div
+                  className={styles.stoneStyle}
+                  style={{ background: color === 1 ? '#000' : '#fff' }}
+                />
+              )}
+            </div>
+          )),
+        )}
 
-  )))}
-
-      <div className={styles.myTurn}>
-        <div className={styles.myTurnDisplay}>Turn:{blackOrWhite}</div>
-        <div className={styles.turnColorDisplay}>
-          <div className={styles.blackCount}> Black: {blackNum} point</div>
-          <div className={styles.whiteCount}>White: {whiteNum} point</div>
+        <div className={styles.myTurn}>
+          <div className={styles.myTurnDisplay}>Turn:{blackOrWhite}</div>
+          <div className={styles.turnColorDisplay}>
+            <div className={styles.blackCount}> Black: {blackNum} point</div>
+            <div className={styles.whiteCount}>White: {whiteNum} point</div>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
