@@ -140,13 +140,12 @@ const Home = () => {
             </div>
           )),
         )}
-
-        <div className={styles.myTurn}>
-          <div className={styles.myTurnDisplay}>Turn:{blackOrWhite}</div>
-          <div className={styles.turnColorDisplay}>
-            <div className={styles.blackCount}> Black: {blackNum} point</div>
-            <div className={styles.whiteCount}>White: {whiteNum} point</div>
-          </div>
+      </div>
+      <div className={styles.myTurn}>
+        <div className={styles.myTurnDisplay}>Turn:{blackOrWhite}</div>
+        <div className={styles.turnColorDisplay}>
+          <div className={styles.blackCount}> Black: {blackNum} point</div>
+          <div className={styles.whiteCount}>White: {whiteNum} point</div>
         </div>
       </div>
     </div>
