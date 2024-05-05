@@ -1,34 +1,6 @@
 import styles from './index.module.css';
-import { useState } from 'react';
-const suggestPosition = (x: number, y: number, board: number[][], turnColor: number) => {
-  console.log(x, y);
-  const preSuggest: number[][] = [];
-  for (const direction of directions) {
-    if (board[y][x] === 0) {
-      if (
-        board[y + direction[0]] !== undefined &&
-        board[y + direction[0]][x + direction[1]] === 3 - turnColor
-      ) {
-        for (let i = 1; i < 8; i++) {
-          if (board[y + direction[0] * i] !== undefined) {
-            if (board[y + direction[0] * i][x + direction[1] * i] === 3 - turnColor) {
-              continue;
-            } else if (board[y + direction[0] * i][x + direction[1] * i] === turnColor) {
-              preSuggest[y][x] = turnColor;
+import { useEffect, useState } from 'react';
 
-              break;
-            } else {
-              // 盤面が0の時、要は何もない時
-              break;
-            }
-          }
-        }
-        console.log('置ける候補は:', preSuggest);
-      }
-    }
-  }
-};
-console.log(suggestPosition);
 const directions = [
   [-1, 0],
   [-1, 1],
@@ -52,6 +24,47 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+  const suggestPosition = (board: number[][], turnColor: number) => {
+    const newboard = board.map((row) => [...row]);
+    for (let x = 0; x < 8; x++) {
+      for (let y = 0; y < 8; y++) {
+        //候補地には何も置かれていない
+        if (board[y][x] === 0) {
+          for (const direction of directions) {
+            if (
+              //候補地に面している隣の八方向が場外でないかつ、相手の色である
+              board[y + direction[0]] !== undefined &&
+              board[y + direction[0]][x + direction[1]] === 3 - turnColor
+            ) {
+              for (let i = 1; i < 8; i++) {
+                //候補地から八方向全てのマス0~7番目までが場外でないかつ、相手の色である
+                if (board[y + direction[0] * i] !== undefined) {
+                  if (board[y + direction[0] * i][x + direction[1] * i] === 3 - turnColor) {
+                    continue;
+                  } else if (board[y + direction[0] * i][x + direction[1] * i] === turnColor) {
+                    newboard[y][x] = 9;
+                    break;
+                  } else {
+                    // 盤面が0の時、要は何もない時
+                    break;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return newboard;
+  };
+
+  // 状態に保存されたボードを反映した上で、ユーザに示す用
+  const [displayBoard, setDisplayBoard] = useState(suggestPosition(board, turnColor));
+
+  // turnColorまたはboardが変更されたときに更新
+  useEffect(()=>{
+    setDisplayBoard(suggestPosition(board,turnColor));
+  }, [board,turnColor]);
   const clickHandler = (x: number, y: number) => {
     // console.log(x, y);
     const newBoard = structuredClone(board);
@@ -114,20 +127,16 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.boardStyle}>
-        {board.map((row, y) =>
-          row.map((color, x) => (
-            <div className={styles.cellStyle} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
-              {color !== 0 && (
-                <div
-                  className={styles.stoneStyle}
-                  style={{ background: color === 1 ? '#000' : '#fff' }}
-                />
-              )}
-              <div className={styles.suggestStyle}>{suggestPosition}</div>
-            </div>
-          )),
-        )}
-      </div>
+  {displayBoard.map((row, y) => row.map((color, x) => (
+    <div className={styles.cellStyle} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
+      {color === 9 ? <div className={styles.suggestStyle}>●</div>}
+      {color !== 0 && color !== 9 && (
+        <div className={styles.stoneStyle} style={{ background: color === 1 ? '#000' : '#fff' }} />
+      )}
+    </div>
+
+  )))}
+
       <div className={styles.myTurn}>
         <div className={styles.myTurnDisplay}>Turn:{blackOrWhite}</div>
         <div className={styles.turnColorDisplay}>
@@ -135,6 +144,7 @@ const Home = () => {
           <div className={styles.whiteCount}>White: {whiteNum} point</div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
